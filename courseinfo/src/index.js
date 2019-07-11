@@ -8,7 +8,6 @@ const App = () => {
   }
 
 const Content = (props) => {
-  // const-definitions
   return (
      <> 
     <div>
