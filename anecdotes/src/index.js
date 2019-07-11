@@ -4,8 +4,10 @@ import ReactDOM from 'react-dom'
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   const [points, setPoints] = useState( Array.apply(null, new Array(props.anecdotes.length)).map(Number.prototype.valueOf,0))
+  const [mostVoted, setMostVoted] = useState(0)
   const copy = [...points]
-
+  let topVotePosition = 0
+  
   const random = () => {
     const randomNumber = Math.floor((Math.random() * anecdotes.length));
     setSelected( randomNumber);
@@ -13,16 +15,33 @@ const App = (props) => {
 
   const upVote = () =>{
       copy[selected] += 1;
+      console.log("this the copy array in upVote",copy)
       setPoints(copy);
+      topVoted();
   }
-
+  const topVoted = () => {
+    for(let position = 0 ; position < copy.length; position++) {
+        if ( copy[position] > copy[topVotePosition] ) {
+            topVotePosition = position;
+            console.log("position = ", position)
+            console.log('topVotePosition = ', topVotePosition)
+            console.log("points = ", points)
+        }
+     }
+     setMostVoted(topVotePosition);
+  }
+  
   return (
     <div>
+      <h1>Anecdote of the Day</h1> 
       {props.anecdotes[selected]}
       <div>has {points[selected]} votes </div>
       <br/>
       <button onClick ={random}>next anecdote</button>
-      <button onClick ={upVote}> upVote </button>
+      <button onClick ={() => upVote()}> upVote </button>
+      <h1>Anecdote with the Most Votes</h1>
+      {props.anecdotes[mostVoted]}
+      <div>has {copy[mostVoted]} votes </div>
     </div>
   )
 }
